@@ -5,7 +5,7 @@ const client = new Client({
     user: 'postgres',
     port: 5432,
     password: 'juhu89Fx#',
-    database: 'users'
+    database: 'project_database'
 });
 
 client.connect();
@@ -21,12 +21,15 @@ function fetchData(id) {
             }
             else {
                 if (res.rows.length > 0) {
-                    const name = res.rows[0].user_name;
-                    console.log("name " + name);
-                    resolve(name);
+                    //const name = res.rows[0].first_name + " "+res.rows[0].last_name;
+                    // console.log("name : " + name);
+                    const userInfo = res.rows[0];
+                    console.log("name : " + res.rows[0].first_name);
+                    //resolve(name);
+                    resolve(userInfo);
                 }
                 else {
-                    resolve('')
+                    resolve(null)
                 }
             }
         });
