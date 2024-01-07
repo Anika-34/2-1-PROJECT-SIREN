@@ -5,7 +5,8 @@ const client = new Client({
     user: 'postgres',
     port: 5432,
     password: 'juhu89Fx#',
-    database: 'project_database'
+    // database: 'project_database'
+    database : 'db1'
 });
 
 client.connect();
