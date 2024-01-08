@@ -55,15 +55,12 @@ app.post("/users", async (req, res) => {
 
   try {
     const results = await db.query(
-      'INSERT INTO "user" (name, password) values ($1, $2) RETURNING *',
-      [req.body.name, req.body.password]
+      'INSERT INTO "user" (first_name,last_name,email,gender,phone_number,nid_number,date_of_birth,address,birth_registration_number,post_code,password) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+      [req.body.first_name, req.body.last_name, req.body.email, req.body.gender, req.body.phone_number, req.body.nid_number, req.body.date_of_birth, req.body.address,req.body.birth_registration_number,req.body.post_code,req.body.password]
     );
    console.log(results);
     res.status(201).json({
       status: "succes",
-    //   data: {
-    //     user : results.rows[0],
-    //   },
     });
   } catch (err) {
     console.log(err);
@@ -74,8 +71,8 @@ app.post("/users", async (req, res) => {
 app.put("/users/:id", async (req, res) => {
   try {
     const results = await db.query(
-      'UPDATE "user" SET name = $1, password = $2 WHERE user_id = $3 returning *',
-      [req.body.name, req.body.password, req.params.id]
+      'UPDATE "user" SET address = $1, password = $2 WHERE user_id = $3 returning *',
+      [req.body.address, req.body.password, req.params.id]
     );
 
     res.status(200).json({
