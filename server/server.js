@@ -1,25 +1,11 @@
-// creating express app
-
-require("dotenv").config();   // importing dotenv
+require("dotenv").config(); 
 const express = require("express");
-//const cors = require("cors");   // 
-// const morgan = require("morgan");   // middleware
+
 const db = require("./db");
 
 const app = express();
 
 app.use(express.json());
-//app.use(cors());
-
-// middleware must be declared at top
-// app.use((req, res, next)=>
-// {
-//     // console.log("hello")
-//     next();
-// });
-
-
-//app.use(morgan("tiny"));  // morgan is already configured to call next function so no need to pass it
 
 
 // Get all users
