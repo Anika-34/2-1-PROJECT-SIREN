@@ -4,7 +4,8 @@ import home from './routes/home'
 import updateUserInfo from './routes/updateUserInfo'
 import showUserInfo from './routes/showUserInfo'
 import addUserInfo from './routes/addUserInfo';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
 const App = () => {

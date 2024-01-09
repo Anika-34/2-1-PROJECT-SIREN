@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import UpdateUser from './UpdateUser';
 
 const UserList = () => {
 
@@ -12,6 +13,7 @@ const UserList = () => {
                     method: "DELETE"
                 });
             console.log("user deleted " + id);
+            setUsers(users.filter(user => user.user_id !== id));    // refesh charai update kore basically filter kore ney
         }
         catch (err) {
             console.error(err.message)
@@ -19,13 +21,13 @@ const UserList = () => {
     }
 
     //update user
-    const updateUser = async (id) => {
+    const updateUser = async (user) => {
         try {
-            const updateUser = await fetch(`http://localhost:3001/users/${id}/update`,
+            const updateUser = await fetch(`http://localhost:3001/users/${user.user_id}/update`,
             {
                 method : "PUT"
             });
-            console.log("user updated " + id);
+            console.log("user updated " + user.user_id);
         }
         catch (err) {
             console.error(err.message)
@@ -75,7 +77,7 @@ const UserList = () => {
                             <td>{user.first_name}</td>
                             <td>{user.last_name}</td>
                             <td>{user.phone_number}</td>
-                            <td><button className='btn btn-danger' onClick={() => updateUser(user.user.id)}>Edit</button></td>
+                            <td><UpdateUser user = {user}/></td>
                             <td><button className='btn btn-danger' onClick={() => deleteUser(user.user_id)}>Delete</button></td>
 
                         </tr>

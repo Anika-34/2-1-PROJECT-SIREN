@@ -69,7 +69,7 @@ app.post("/users", async (req, res) => {
 });
 // Update user
 
-app.put("/users/:id", async (req, res) => {
+app.put("/users/:id/update", async (req, res) => {
   try {
     const results = await db.query(
       'UPDATE "user" SET address = $1, password = $2 WHERE user_id = $3 returning *',

@@ -19,9 +19,10 @@ function AddUser() {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(body)
         });
-        console.log(response);
-        console.log("ok");
         window.location("/");
+        // console.log(response);
+        // console.log("ok");
+        
     }catch(err){
         console.error(err.message);
     }
