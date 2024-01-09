@@ -19,7 +19,17 @@ function AddUser() {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(body)
         });
-        window.location("/");
+        window.location = "/";
+        if(response.status === 400)
+        {
+          alert('User already exists');
+        }
+        else
+        {
+          if (window.confirm('Your account has been created!')) {
+            window.location = "/";
+          }
+        }
         // console.log(response);
         // console.log("ok");
         

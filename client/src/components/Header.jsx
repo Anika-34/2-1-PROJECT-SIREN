@@ -1,9 +1,10 @@
 import React from "react";
+import './comp.css'
 
 const Header = () => {
   return (
     <div>
-      <h1 className="font-weight-light display-1 text-center">
+      <h1 className="header-title">
         Siren
       </h1>
     </div>

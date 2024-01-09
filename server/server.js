@@ -58,7 +58,12 @@ app.post("/users", async (req, res) => {
     //
     const check = await db.query('SELECT * FROM "user" WHERE email = $1 OR phone_number = $2', [req.body.email, req.body.phone_number]);
     if (check.rows.length !== 0) {
-      res.send("user already exists")
+      // res.send("user already exists")
+      res.status(400).json(
+        {
+          status : "user already exists"
+        }
+      )
     }
     //
     else {

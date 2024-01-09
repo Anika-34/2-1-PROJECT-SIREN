@@ -31,10 +31,10 @@ const ShowUser = () => {
           <p>First Name: {userData.first_name}</p>
           <p>Last Name: {userData.last_name}</p>
           <p>Date of Birth: {userData.date_of_birth}</p>
-          <h3>Contact Information:</h3>
+          <h3>Contact Information</h3>
           <p>Email: {userData.email}</p>
           <p>Phone Number: {userData.phone_number}</p>
-          <h3>Address:</h3>
+          <h3>Address</h3>
           <p>Details: {userData.address}</p>
           <p>Postcode: {userData.postcode}</p>
         </div>
