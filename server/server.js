@@ -14,7 +14,7 @@ app.get("/users", async (req, res) => {
   try {
     // console.log("route handler");
     
-    const results = await db.query('SELECT * FROM "user"');
+    const results = await db.query('SELECT * FROM "user" ORDER BY user_id');
 
     res.status(200).json({
       status: "success",
@@ -33,9 +33,10 @@ app.get("/users/:id", async (req, res) => {
   console.log(req.params.id);
 
   try {
+    const userID = parseInt(req.params.id);
     const results = await db.query(
       'SELECT * FROM "user" WHERE user_id = $1',
-      [req.params.id]
+      [userID]
     );
 
     res.status(200).json({
@@ -72,22 +73,33 @@ app.post("/users", async (req, res) => {
 app.put("/users/:id/update", async (req, res) => {
   try {
     const results = await db.query(
-      'UPDATE "user" SET address = $1, password = $2 WHERE user_id = $3 returning *',
-      [req.body.address, req.body.password, req.params.id]
+      'UPDATE "user" SET address = $1, post_code = $2, phone_number = $3, email = $4, password = $5, date_of_birth = $6, birth_registration_number = $7 WHERE user_id = $8 returning *',
+      [
+        req.body.address,
+        req.body.post_code,
+        req.body.phone_number,
+        req.body.email,
+        req.body.password,
+        req.body.date_of_birth,
+        req.body.birth_registration_number,
+        req.params.id
+      ]
     );
 
+    console.log(results);
+
     res.status(200).json({
-      status: "succes",
+      status: "success",
       data: {
         user: results.rows[0],
       },
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
-  console.log(req.params.id);
-  console.log(req.body);
 });
+
 
 // Delete user
 

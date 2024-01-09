@@ -1,9 +1,13 @@
 import React from 'react'
-
+import ShowUser from '../components/ShowUser'
+import Header from '../components/Header'
 
 const showUserInfo = () => {
   return (
-    <div>userInfo</div>
+    <div>
+      <center><Header /></center>
+      <ShowUser/>
+    </div>
   )
 }
 
