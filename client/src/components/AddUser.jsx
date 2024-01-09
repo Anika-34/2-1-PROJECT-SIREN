@@ -1,43 +1,49 @@
-import React, { Fragment, useState } from 'react'  
+import React, { Fragment, useState} from 'react'
 
 function AddUser() {
-  const[first_name, setFirstName] = useState('');
-  const[last_name, setLastName] = useState('');
-  const[nid_number, setNid] = useState('');
-  const[phone_number, setPhone] = useState('');
-  const[email, setEmail] = useState('');
-  const[password, setPassword] = useState('');
-  const[gender, setGender] = useState('1');
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
+  const [nid_number, setNid] = useState('');
+  const [phone_number, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [gender, setGender] = useState('1');
 
+  const [message, setMessage] = useState('');
+  const [showMessage, setShowMessage] = useState(false)
 
-  const onSubmitForm = async(e)=>{
+  const onSubmitForm = async (e) => {
     e.preventDefault();
-    try{
-        const body = {first_name, last_name, nid_number, phone_number, email, password, gender};
-        const response= await fetch("http://localhost:3001/users/", {    // fetch get req kore post set kore over write
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(body)
-        });
-        window.location = "/";
-        if(response.status === 400)
-        {
-          alert('User already exists');
-        }
-        else
-        {
-          if (window.confirm('Your account has been created!')) {
-            window.location = "/";
-          }
-        }
-        // console.log(response);
-        // console.log("ok");
-        
-    }catch(err){
-        console.error(err.message);
-    }
-}
+    try {
+      const body = { first_name, last_name, nid_number, phone_number, email, password, gender };
+      const response = await fetch("http://localhost:3001/users/", {    // fetch get req kore post set kore over write
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      //window.location = "/";
+      if (response.status === 400) {
+        setMessage('User already exists!');
+      }
+      else {
+        setMessage('Your account is created successfully!')
+      }
+      setShowMessage(true);
+      // console.log(response);
+      // console.log("ok");
 
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+
+  const closeMessage = () => {
+    setShowMessage(false);
+    if (message === 'Your account has been created!') {
+      window.location = "/";
+    }
+  };
 
 
   return (
@@ -75,6 +81,26 @@ function AddUser() {
           </div>
         </form>
       </div>
+      {showMessage && (
+        <div className="modal" style={{ display: 'block' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Message</h5>
+                <button type="button" className="close" onClick={closeMessage}>
+                  <span>&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <p>{message}</p>
+                <button type="button" className="btn btn-primary" onClick={closeMessage}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </Fragment>
   )
 }
