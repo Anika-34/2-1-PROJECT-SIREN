@@ -1,4 +1,4 @@
-require("dotenv").config(); 
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const db = require("./db");
@@ -13,7 +13,7 @@ app.use(cors());
 app.get("/users", async (req, res) => {
   try {
     // console.log("route handler");
-    
+
     const results = await db.query('SELECT * FROM "user" ORDER BY user_id');
 
     res.status(200).json({
@@ -42,9 +42,9 @@ app.get("/users/:id", async (req, res) => {
     res.status(200).json({
       status: "succes",
       data: {
-        result : results.rows[0],
+        result: results.rows[0],
       },
-     });
+    });
   } catch (err) {
     console.log(err);
   }
@@ -54,16 +54,23 @@ app.get("/users/:id", async (req, res) => {
 
 app.post("/users", async (req, res) => {
   console.log(req.body);
-
   try {
-    const results = await db.query(
-      'INSERT INTO "user" (first_name,last_name,email,gender,phone_number,nid_number,date_of_birth,address,birth_registration_number,post_code,password) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-      [req.body.first_name, req.body.last_name, req.body.email, req.body.gender, req.body.phone_number, req.body.nid_number, req.body.date_of_birth, req.body.address,req.body.birth_registration_number,req.body.post_code,req.body.password]
-    );
-   console.log(results);
-    res.status(201).json({
-      status: "succes",
-    });
+    //
+    const check = await db.query('SELECT * FROM "user" WHERE email = $1 OR phone_number = $2', [req.body.email, req.body.phone_number]);
+    if (check.rows.length !== 0) {
+      res.send("user already exists")
+    }
+    //
+    else {
+      const results = await db.query(
+        'INSERT INTO "user" (first_name,last_name,email,gender,phone_number,nid_number,date_of_birth,address,birth_registration_number,post_code,password) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+        [req.body.first_name, req.body.last_name, req.body.email, req.body.gender, req.body.phone_number, req.body.nid_number, req.body.date_of_birth, req.body.address, req.body.birth_registration_number, req.body.post_code, req.body.password]
+      );
+      console.log(results);
+      res.status(201).json({
+        status: "succes",
+      });
+    }
   } catch (err) {
     console.log(err);
   }
@@ -112,7 +119,7 @@ app.delete("/users/:id", async (req, res) => {
     // console.log(results);
     res.status(204).json({
       status: "sucess",
-      
+
     });
   } catch (err) {
     console.log(err);
