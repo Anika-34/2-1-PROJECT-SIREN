@@ -1,10 +1,15 @@
 import React from 'react'
+import Header from "../components/Header"
+import UpdateUser from "../components/UpdateUser"
 
-
-const UpdateUserInfo = () => {
+function updateUserInfo() {
   return (
-    <div>updateUser</div>
+    <div>
+      <center><Header/></center>
+      <UpdateUser/>
+    </div>
+
   )
 }
 
-export default UpdateUserInfo
+export default updateUserInfo

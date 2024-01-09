@@ -1,11 +1,12 @@
 require("dotenv").config(); 
 const express = require("express");
-
+const cors = require("cors");
 const db = require("./db");
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 
 // Get all users
@@ -92,6 +93,7 @@ app.put("/users/:id", async (req, res) => {
 
 app.delete("/users/:id", async (req, res) => {
   try {
+    console.log("deleting user " + req.params.id);
     const results = db.query('DELETE FROM "user" where user_id = $1', [
       req.params.id,
     ]);

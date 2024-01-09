@@ -1,0 +1,89 @@
+import React, { Fragment, useEffect, useState } from 'react'
+
+const UserList = () => {
+
+    const [users, setUsers] = useState([]);
+
+    // delete user
+    const deleteUser = async (id) => {
+        try {
+            const deleteUser = await fetch(`http://localhost:3001/users/${id}`,
+                {
+                    method: "DELETE"
+                });
+            console.log("user deleted " + id);
+        }
+        catch (err) {
+            console.error(err.message)
+        }
+    }
+
+    //update user
+    const updateUser = async (id) => {
+        try {
+            const updateUser = await fetch(`http://localhost:3001/users/${id}/update`,
+            {
+                method : "PUT"
+            });
+            console.log("user updated " + id);
+        }
+        catch (err) {
+            console.error(err.message)
+        }
+    }
+
+    const getUsers = async () => {
+        try {
+            const response = await fetch("http://localhost:3001/users")
+            const jsondata = await response.json();
+            // console.log(data);
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok.');
+            // }
+
+
+            setUsers(jsondata.data.users);
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+
+    useEffect(() => {
+        getUsers();
+    }, []);     // to make sure 1 ta req dicchi
+    console.log(users);
+
+    return (
+
+        <Fragment>
+            <table className="table mt-5 text-container">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Contact Information</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map(user => (
+                        <tr>
+                            <td>{user.user_id}</td>
+                            <td>{user.first_name}</td>
+                            <td>{user.last_name}</td>
+                            <td>{user.phone_number}</td>
+                            <td><button className='btn btn-danger' onClick={() => updateUser(user.user.id)}>Edit</button></td>
+                            <td><button className='btn btn-danger' onClick={() => deleteUser(user.user_id)}>Delete</button></td>
+
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </Fragment>
+    )
+}
+
+export default UserList
