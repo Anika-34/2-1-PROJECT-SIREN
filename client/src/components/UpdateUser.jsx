@@ -19,8 +19,8 @@ const UpdateUser = ({ user }) => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
                 });
-            //window.location = "/";
-            console.log("updated")
+            window.location = "/";
+            //console.log("updated")
             // console.log(res)
         } catch (err) {
             console.error(err.message);

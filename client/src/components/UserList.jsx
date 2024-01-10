@@ -27,8 +27,8 @@ const UserList = () => {
             {
                 method : "PUT"
             });
-            //window.location = "/";
-            console.log("user updated " + user.user_id);
+            window.location = "/";
+            //console.log("user updated " + user.user_id);
         }
         catch (err) {
             console.error(err.message)

@@ -30,14 +30,14 @@ function AddUser() {
 
       console.log();
       if (response.status === 400) {
-        setMessage(`User with this contact information already exists! User ID ${userID}`);
+        setMessage(`User with this contact information already exists! User ID ${userIDfromRes}`);
       }
       else if(response.status === 300)
       {
         setMessage('Both Email and Phone number can not be empty')
       }
       else {
-        setMessage(`Account is created successfully! Your user ID id ${userID}`)
+        setMessage(`Account is created successfully! Your user ID id ${userIDfromRes}`)
       }
       setShowMessage(true);
       // console.log(response);
