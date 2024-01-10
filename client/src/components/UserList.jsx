@@ -1,10 +1,19 @@
 import React, { Fragment, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import UpdateUser from './UpdateUser';
 
 const UserList = () => {
 
     const [users, setUsers] = useState([]);
+    const navigate= useNavigate();
 
+    const registerUser = () => {
+        try {
+            navigate('/users');
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
     // delete user
     const deleteUser = async (id) => {
         try {
@@ -61,6 +70,7 @@ const UserList = () => {
     return (
 
         <Fragment>
+            <button className='btn btn-success ' onClick={ ()=> registerUser()}>Register</button>
             <table className="table mt-5 text-container">
                 <thead>
                     <tr>

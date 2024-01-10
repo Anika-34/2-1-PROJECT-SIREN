@@ -1,6 +1,9 @@
 import React, { Fragment, useState} from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 function AddUser() {
+  let navigate = useNavigate();
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [nid_number, setNid] = useState('');
@@ -48,7 +51,13 @@ function AddUser() {
     }
   };
 
-
+  const goHome = () => {
+    try {
+        navigate('/');
+    } catch (err) {
+        console.error(err.message);
+    }
+}
   const closeMessage = () => {
     setShowMessage(false);
     if (message === `Account is created successfully! Your user ID id ${userID}`) {
@@ -91,6 +100,8 @@ function AddUser() {
             <button className="btn btn-primary">Register</button>
           </div>
         </form>
+
+        <button className='btn btn-success ' onClick={ ()=> goHome()}>back</button>
       </div>
       {showMessage && (
         <div className="modal" style={{ display: 'block' }}>

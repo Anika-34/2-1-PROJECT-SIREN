@@ -5,8 +5,10 @@ import Header from '../components/Header'
 const Home = () => {
   return (
     <div>
-      <center><Header/></center>
-      <UserList/>
+      <center><h1 className="header-title">
+        Passenger List
+      </h1></center>
+      <UserList />
     </div>
   )
 }

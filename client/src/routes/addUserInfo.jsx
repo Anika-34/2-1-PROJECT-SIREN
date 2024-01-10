@@ -5,8 +5,10 @@ import Header from '../components/Header'
 const addUserInfo = () => {
   return (
     <div>
-        <center><Header/></center>
-        <AddUser/>
+      <center><h1 className="header-title">
+        Register New User
+      </h1></center>
+      <AddUser />
     </div>
   )
 }
