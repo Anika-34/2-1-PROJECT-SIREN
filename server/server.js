@@ -55,31 +55,96 @@ app.get("/users/:id", async (req, res) => {
 app.post("/users", async (req, res) => {
   console.log(req.body);
   try {
+    const phone_number = req.body.phone_number
+    const email = req.body.email;
+    console.log(phone_number + " " +email);
     //
-    const check = await db.query('SELECT * FROM "user" WHERE email = $1 OR phone_number = $2', [req.body.email, req.body.phone_number]);
-    if (check.rows.length !== 0) {
-      // res.send("user already exists")
-      res.status(400).json(
-        {
-          status : "user already exists"
-        }
-      )
+    if (!email && !phone_number) {
+      return res.status(300).json({ status: "email and phone_number cannot both be empty" });
     }
-    //
+    else if (!email && phone_number) {
+      const result1 = await db.query('SELECT * FROM "user" WHERE phone_number = $1', [req.body.phone_number]);
+      
+      if (result1.rows.length !== 0) {
+        // res.send("user already exists")
+        res.status(400).json(
+          {
+            status: "user already exists",
+            "userID" : result1.rows[0].user_id
+          }
+        )
+      }
+      else {
+        const results = await db.query(
+          'INSERT INTO "user" (first_name,last_name,email,gender,phone_number,nid_number,date_of_birth,address,birth_registration_number,post_code,password) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+          [req.body.first_name, req.body.last_name, req.body.email, req.body.gender, req.body.phone_number, req.body.nid_number, req.body.date_of_birth, req.body.address, req.body.birth_registration_number, req.body.post_code, req.body.password]
+        );
+        console.log("row start");
+        console.log(results.rows[0].user_id);
+        console.log("row end");
+        res.status(201).json({
+          status: "succes",
+          "userID" : results.rows[0].user_id
+        });
+      }
+    }
+    else if (!phone_number && email) {
+      const result2 = await db.query('SELECT * FROM "user" WHERE email = $1', [req.body.email]);
+      
+      if (result2.rows.length !== 0) {
+        res.status(400).json(
+          {
+            status: "user already exists",
+            "userID" : result2.rows[0].user_id
+          }
+        )
+      }
+      else {
+        const results = await db.query(
+          'INSERT INTO "user" (first_name,last_name,email,gender,phone_number,nid_number,date_of_birth,address,birth_registration_number,post_code,password) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+          [req.body.first_name, req.body.last_name, req.body.email, req.body.gender, req.body.phone_number, req.body.nid_number, req.body.date_of_birth, req.body.address, req.body.birth_registration_number, req.body.post_code, req.body.password]
+        );
+        console.log("row start");
+        console.log(results.rows[0].user_id);
+        console.log("row end");
+        res.status(201).json({
+          status: "succes",
+          "userID" : results.rows[0].user_id
+        });
+      }
+    }
     else {
-      const results = await db.query(
-        'INSERT INTO "user" (first_name,last_name,email,gender,phone_number,nid_number,date_of_birth,address,birth_registration_number,post_code,password) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-        [req.body.first_name, req.body.last_name, req.body.email, req.body.gender, req.body.phone_number, req.body.nid_number, req.body.date_of_birth, req.body.address, req.body.birth_registration_number, req.body.post_code, req.body.password]
-      );
-      console.log(results);
-      res.status(201).json({
-        status: "succes",
-      });
+      const check = await db.query('SELECT * FROM "user" WHERE email = $1 OR phone_number = $2', [req.body.email, req.body.phone_number]);
+      console.log(check);
+      if (check.rows.length !== 0) {
+        res.status(400).json(
+          {
+            status: "user already exists",
+            "userID" : check.rows[0].user_id
+          }
+        )
+      }
+      //
+      else {
+        const results = await db.query(
+          'INSERT INTO "user" (first_name,last_name,email,gender,phone_number,nid_number,date_of_birth,address,birth_registration_number,post_code,password) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+          [req.body.first_name, req.body.last_name, req.body.email, req.body.gender, req.body.phone_number, req.body.nid_number, req.body.date_of_birth, req.body.address, req.body.birth_registration_number, req.body.post_code, req.body.password]
+        );
+        //console.log("row start");
+        console.log(results.rows[0].user_id);
+        //console.log("row end");
+        res.status(201).json({
+          status: "succes",
+          "userID" : results.rows[0].user_id
+        });
+      }
     }
   } catch (err) {
     console.log(err);
   }
 });
+
+
 // Update user
 
 app.put("/users/:id/update", async (req, res) => {

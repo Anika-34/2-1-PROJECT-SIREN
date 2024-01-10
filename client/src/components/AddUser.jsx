@@ -11,6 +11,7 @@ function AddUser() {
 
   const [message, setMessage] = useState('');
   const [showMessage, setShowMessage] = useState(false)
+  const [userID, setUserID] = useState('not available');
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -22,11 +23,21 @@ function AddUser() {
         body: JSON.stringify(body)
       });
       //window.location = "/";
+      const data = await response.json(); 
+      const userIDfromRes = data.userID;
+      console.log(data);
+      setUserID(userIDfromRes); 
+
+      console.log();
       if (response.status === 400) {
-        setMessage('User already exists!');
+        setMessage(`User with this contact information already exists! User ID ${userID}`);
+      }
+      else if(response.status === 300)
+      {
+        setMessage('Both Email and Phone number can not be empty')
       }
       else {
-        setMessage('Your account is created successfully!')
+        setMessage(`Account is created successfully! Your user ID id ${userID}`)
       }
       setShowMessage(true);
       // console.log(response);
@@ -40,7 +51,7 @@ function AddUser() {
 
   const closeMessage = () => {
     setShowMessage(false);
-    if (message === 'Your account has been created!') {
+    if (message === `Account is created successfully! Your user ID id ${userID}`) {
       window.location = "/";
     }
   };
